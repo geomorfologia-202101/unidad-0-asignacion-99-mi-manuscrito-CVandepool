@@ -13,7 +13,7 @@ title: |
         | Subtítulo
 author:
 - name: Cinthia Amalia Vandepool Candelario
-  affiliation: Afiliación, normalmente algo tal que "Estudiante, Universidad Autónoma de Santo Domingo (UASD)"
+  affiliation: "Estudiante de Geografia, Universidad Autónoma de Santo Domingo (UASD)"
 abstract: "Resumen del manuscrito"
 keywords: "palabra clave 1, palabra clave 2"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
@@ -32,7 +32,10 @@ header-includes:
 
 # Introducción
 
-\ldots
+La morfometría fluvial se encarga de analizar los parámetros geomorfológicos de una cuenca hidrográfica, tales como la red de drenaje, las pendientes, la forma… Por cuenca hidrográfica entendemos ese sistema o unidad geográfica e hidrológica, formada por un rio principal y todo el territorio entre el origen del rio y su desembocadura, en este espacio interactúan factores bióticos y abióticos. 
+
+La cuenca hidrográfica a analizar en esta investigación es la Subcuenca Caña perteneciente a la Cuenca del rio Macasia, ubicada en el extremo suroeste de la republica dominicana, dicho análisis se realizara a partir de datos preexistentes por medio ... 
+
 
 # Metodología
 
