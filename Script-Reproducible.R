@@ -434,3 +434,261 @@ execGRASS(
   )
 )
 file.show('cana_stats_expanded.txt')
+
+#Video 11 mapview(order, col.regions = 'blue', legend = FALSE) ----
+mapview(order, col.regions = 'blue', legend = FALSE)
+
+# Obtener cursos más largos (cargar función propia)
+devtools::source_url('https://raw.githubusercontent.com/geofis/rgrass/master/lfp_network.R') #Cargada como función "LfpNetwork"
+LfpNetwork(
+  xycoords = my_trans(c(-71.62524,18.94026)),
+  suffix = 'cana',
+  stream_vect = 'order_all',
+  direction = 'drainage-dir-de-rstr'
+)
+# Imprimir lista de mapas ráster y vectoriales
+execGRASS(
+  'g.list',
+  flags = 't',
+  parameters = list(
+    type = c('raster', 'vector')
+  )
+)
+# Representar con leaflet
+lfp <- readVECT('LfpNetwork_lfp_all_final_cana')
+lfp4326 <- spTransform(lfp, CRSobj = CRS("+init=epsg:4326"))
+leaflet() %>%
+  addProviderTiles(providers$Stamen.Terrain, group = 'terrain') %>%
+  addPolylines(
+    data = lfp4326, weight = 3, opacity = 0.7, group = 'order',
+    label = ~as.character(cat),
+    highlightOptions = highlightOptions(color = "white",
+                                        weight = 5, bringToFront = F, opacity = 1),
+    labelOptions = labelOptions(noHide = T,
+                                style = list(
+                                  "font-size" = "8px",
+                                  "background" = "rgba(255, 255, 255, 0.5)",
+                                  "background-clip" = "padding-box",
+                                  "padding" = "1px"))) %>% 
+  leafem::addHomeButton(extent(lfp4326), 'Ver todo')
+
+# Exportar a KML
+execGRASS(
+  'v.out.ogr',
+  flags = c('overwrite','quiet'),
+  parameters = list(
+    input = 'LfpNetwork_lfp_all_final_cana',
+    output = 'lfp_kml.kml',
+    format = 'KML',
+    dsco = 'NameField=cat'
+  )
+)
+
+# Obtención de perfiles longitudinales e índices de concavidad
+source('lfp_profiles_concavity.R') #Cargado como función "LfpProfilesConcavity"
+cana_conv_prof <- LfpProfilesConcavity(
+  xycoords = my_trans(c(-71.62524,18.94026)),
+  network = 'LfpNetwork_lfp_all_final_cana',
+  prefix = 'Ptl',
+  dem = 'dem',
+  direction = 'drainage-dir-de-rstr',
+  crs = '+init=epsg:32619',
+  smns = 0.5,
+  nrow = 3)
+
+## Mostrar resultados
+cana_conv_prof$profiles
+cana_prof$concavityindex
+cana_conv_prof$dimensionlessprofiles
+
+## Tabla dx/dy, tanto en metros como adimensional. Útiles para construir perfiles por cuenta propia
+cana_conv_prof$lengthzdata %>% tibble::as.tibble()
+cana_conv_prof$lengthzdatadmnls %>% tibble::as.tibble()
+
+#Video 12 Parámetros de cuenca con r.basin ----
+# Convertir a números enteros la extensión y la resolución del DEM
+library(raster)
+rutadem <- 'data/dem.tif'
+rawextent <- extent(raster(rutadem))
+rawextent
+devtools::source_url('https://raw.githubusercontent.com/geofis/rgrass/master/integerextent.R')
+devtools::source_url('https://raw.githubusercontent.com/geofis/rgrass/master/xyvector.R')
+newextent <- intext(e = rawextent, r = 90, type = 'inner')
+newextent
+gdalUtils::gdalwarp(
+  srcfile = 'data/dem.tif',
+  dstfile = 'data/demint.tif',
+  te = xyvector(newextent),
+  tr = c(90,90),
+  r = 'bilinear',
+  overwrite = T
+  
+## Importar a sesión de GRASS
+rutademint <- 'data/demint.tif'
+execGRASS(
+  "g.proj",
+  flags = c('t','c'),
+  georef=rutademint)
+gmeta()
+execGRASS(
+  "r.in.gdal",
+  flags='overwrite',
+  parameters=list(
+    input=rutademint,
+    output="demint"
+  )
+)
+execGRASS(
+  "g.region",
+  parameters=list(
+    raster = "demint",
+    align = "demint"
+  )
+)
+gmeta()
+execGRASS(
+  'g.list',
+  flags = 't',
+  parameters = list(
+    type = c('raster', 'vector')
+  )
+)
+## Generar red de drenaje para obtener coordenada posteriormente
+execGRASS(
+  "r.stream.extract",
+  flags = c('overwrite','quiet'),
+  parameters = list(
+    elevation = 'demint',
+    threshold = 80,
+    stream_raster = 'stream-de-rstr',
+    stream_vector = 'stream_de_rstr'
+  )
+)
+execGRASS(
+  'g.list',
+  flags = 't',
+  parameters = list(
+    type = c('raster', 'vector')
+  )
+)
+## Obtener coordenada
+library(sp)
+use_sp()
+library(mapview)
+netw <- spTransform(
+  readVECT('stream_de_rstr'),
+  CRSobj = CRS("+init=epsg:4326"))
+mapview(netw, col.regions = 'blue', legend = FALSE)
+
+## Transformar coordenada a EPSG:32619 como número entero
+source('my-trans.R')
+outlet <- as.integer(my_trans(c(-70.77398,18.90123)))
+
+## Ejecutar `r.basin`
+pref <- 'rbasin_pant'
+execGRASS(
+  "r.basin",
+  flags = 'overwrite',
+  parameters = list(
+    map = 'demint',
+    prefix = pref,
+    coordinates = outlet,
+    threshold = 80,
+    dir = 'salidas-rbasin/pantuflas'
+  )
+)
+execGRASS(
+  'g.list',
+  flags = 't',
+  parameters = list(
+    type = c('raster', 'vector')
+  )
+)
+> Si `r.basin` arrojara error (sólo en el caso de error, no en caso de advertencia), ejecutar este bloque para borrar las salidas anteriores y reejecutar el `r.basin`:
+  ```{r, eval=FALSE}
+execGRASS(
+  "g.remove",
+  flags = 'f',
+  parameters = list(
+    type = c('raster','vector'),
+    pattern = paste0(pref, '*')
+  )
+)
+## Cargar los vectoriales transformados a EPSG:4326 para visualizar en leaflet
+rbnetw <- spTransform(
+  readVECT('rbasin_pant_demint_network'),
+  CRSobj = CRS("+init=epsg:4326"))
+rbnetw
+rbmain <- spTransform(
+  readVECT('rbasin_pant_demint_mainchannel'),
+  CRSobj = CRS("+init=epsg:4326"))
+rbmain
+rbbasin <- spTransform(
+  readVECT('rbasin_pant_demint_basin'),
+  CRSobj = CRS("+init=epsg:4326"))
+rbbasin
+
+library(leaflet)
+leaflet() %>%
+  addProviderTiles(providers$Stamen.Terrain, group = 'terrain') %>%
+  addPolylines(data = rbnetw, weight = 3, opacity = 0.7) %>% 
+  addPolylines(data = rbmain, weight = 3, opacity = 0.7, color = 'red') %>% 
+  addPolygons(data = rbbasin) %>% 
+  leafem::addHomeButton(extent(rbbasin), 'Ver cuenca')
+
+## Explorar los parámetros de cuenca
+library(readr)
+rbpantpar1 <- read_csv("salidas-rbasin/pantuflas/rbasin_pant_demint_parametersT.csv")
+rbpantpar1 %>% tibble::as_tibble()
+rbpantpar2 <- read_csv(
+  "salidas-rbasin/pantuflas/rbasin_pant_demint_parameters.csv",
+  skip=2, col_names = c('Parameter', 'Value'))
+rbpantpar2 %>% print(n=Inf)
+
+#Video 13 Curva e integral hipsométrica ----
+# Imprimir lista de mapas ráster y vectoriales dentro en la región/localización activa
+
+* Nótese que los paquetes requeridos en esta sessión (`rgrass7`, `raster`, `leaflet`, `leafem`), fueron en el bloque anterior al ejecutarse el código contenido en el archivo `orden-de-red.Rmd`. Igualmente, dicho bloque de código creó todos los objetos necesarios para realizar este tutorial.
+
+execGRASS(
+  'g.list',
+  flags = 't',
+  parameters = list(
+    type = c('raster', 'vector')
+  )
+)
+
+## Representar cuencas
+library(sp)
+use_sp()
+library(mapview)
+bas2 <- readVECT('r_stream_basins_2')
+bas3 <- readVECT('r_stream_basins_3')
+
+## Curva e integral hipsométrica
+source('integral_hypsometric_curve.R') #Cargada como función "HypsoIntCurve"
+HypsoBasinsOrder2 <- HypsoIntCurve(
+  basins = 'r_stream_basins_2',
+  dem = 'dem',
+  labelfield = 'cat',
+  nrow = 2,
+  labelsize = 4
+)
+
+HypsoBasinsOrder2$HypsoInt
+HypsoBasinsOrder2$HypsoCurve
+mapview(bas2, zcol='cat', col.regions = 'blue', legend = FALSE) %>%
+  addStaticLabels(label = bas2$cat)
+
+HypsoBasinsOrder3 <- HypsoIntCurve(
+  basins = 'r_stream_basins_3',
+  dem = 'dem',
+  labelfield = 'cat',
+  nrow = 1,
+  labelsize = 4
+)
+
+HypsoBasinsOrder3$HypsoInt
+HypsoBasinsOrder3$HypsoCurve
+mapview(bas3, zcol='cat', col.regions = 'blue', legend = FALSE) %>%
+  addStaticLabels(label = bas3$cat)

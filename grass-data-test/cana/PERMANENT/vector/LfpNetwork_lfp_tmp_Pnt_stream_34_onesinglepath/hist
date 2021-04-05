@@ -1,0 +1,15 @@
+COMMAND: r.lfp --overwrite input=drainage-dir-de-rstr coordinates=221607.783632066,2071599.24269366 output=LfpNetwork_lfp_tmp_Pnt_stream_34
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Sat Apr  3 13:41:49 2021
+---------------------------------------------------------------------------------
+COMMAND: v.category --overwrite input="LfpNetwork_lfp_tmp_Pnt_stream_34" layer="1" type="point,line,centroid,face" output="LfpNetwork_lfp_tmp_Pnt_stream_34_onesinglepath" option="del" cat=-1 step=1
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Sat Apr  3 13:41:50 2021
+---------------------------------------------------------------------------------
+COMMAND: v.category --overwrite input="LfpNetwork_lfp_tmp_Pnt_stream_34_onesinglepath" layer="1" type="point,line,centroid,face" output="LfpNetwork_lfp_tmp_Pnt_stream_34" option="add" cat=1 step=1
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Sat Apr  3 13:41:50 2021
+---------------------------------------------------------------------------------
+COMMAND: v.extract --overwrite input="LfpNetwork_lfp_tmp_Pnt_stream_34" layer="1" type="point,line,boundary,centroid,area,face" output="LfpNetwork_lfp_tmp_Pnt_stream_34_onesinglepath" random=1 new=-1
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Sat Apr  3 13:41:50 2021

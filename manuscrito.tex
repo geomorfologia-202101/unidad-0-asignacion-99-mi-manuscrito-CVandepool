@@ -46,8 +46,7 @@ Subtítulo  }
 
 
 
-\author{\Large Nombre del estudiante\vspace{0.05in} \newline\normalsize\emph{Afiliación, normalmente algo tal que ``Estudiante, Universidad Autónoma
-de Santo Domingo (UASD)''}  }
+\author{\Large Cinthia Amalia Vandepool Candelario\vspace{0.05in} \newline\normalsize\emph{Estudiante de Geografia, Universidad Autónoma de Santo Domingo (UASD)}  }
 
 
 \date{}
@@ -93,9 +92,8 @@ de Santo Domingo (UASD)''}  }
 \makeatother
 \hypersetup{breaklinks=true,
             bookmarks=true,
-            pdfauthor={Nombre del estudiante (Afiliación, normalmente algo tal que ``Estudiante, Universidad Autónoma
-de Santo Domingo (UASD)'')},
-             pdfkeywords = {palabra clave 1, palabra clave 2},  
+            pdfauthor={Cinthia Amalia Vandepool Candelario (Estudiante de Geografia, Universidad Autónoma de Santo Domingo (UASD))},
+             pdfkeywords = {morfometría fluvial, modelo digital de elevación, red de drenaje},  
             pdftitle={Título\\
 Subtítulo\\
 Subtítulo},
@@ -111,7 +109,8 @@ Subtítulo},
 \def\fps@figure{htbp}
 \makeatother
 
-\usepackage{pdflscape} \newcommand{\blandscape}{\begin{landscape}} \newcommand{\elandscape}{\end{landscape}}
+\usepackage{pdflscape} \newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
 
 
 % add tightlist ----------
@@ -134,8 +133,7 @@ Subtítulo},
 
 {
    \vskip 13.5pt\relax \normalsize\fontsize{11}{12} 
-\textbf{\authorfont Nombre del estudiante} \hskip 15pt \emph{\small Afiliación, normalmente algo tal que ``Estudiante, Universidad Autónoma
-de Santo Domingo (UASD)''}   
+\textbf{\authorfont Cinthia Amalia Vandepool Candelario} \hskip 15pt \emph{\small Estudiante de Geografia, Universidad Autónoma de Santo Domingo (UASD)}   
 
 }
 
@@ -157,7 +155,7 @@ de Santo Domingo (UASD)''}
 \noindent Resumen del manuscrito
 
 
-\vskip 8.5pt \noindent \emph{Keywords}: palabra clave 1, palabra clave 2 \par
+\vskip 8.5pt \noindent \emph{Keywords}: morfometría fluvial, modelo digital de elevación, red de drenaje \par
 
     \hbox{\vrule height .2pt width 39.14pc}
 
@@ -169,40 +167,102 @@ de Santo Domingo (UASD)''}
 \vskip 6.5pt
 
 
-\noindent  \hypertarget{introducciuxf3n}{%
-\section{Introducción}\label{introducciuxf3n}}
+\noindent  \section{Introducción}\label{introducciuxf3n}
+
+La morfometría fluvial se encarga de analizar los parámetros
+geomorfológicos de una cuenca hidrográfica, tales como la red de
+drenaje, la pendiente, la forma, el orden de la red y demas aspectos
+fisicos. Por cuenca hidrográfica entendemos ese sistema o unidad
+geográfica e hidrológica, formada por un rio principal y todo el
+territorio entre el origen del rio y su desembocadura, en este espacio
+interactúan factores bióticos y abióticos.
+
+La cuenca hidrográfica a analizar en esta investigación es la Subcuenca
+Caña perteneciente a la Cuenca del rio Macasia, ubicada en el extremo
+suroeste de la republica dominicana, dicho análisis se realizara
+basandonos en datos preexistentes a partir de un \emph{modelo digital de
+elevación (DEM)}, el cual es un modelo simbólico, de estructura numérica
+y digital que pretende representar la distribución espacial de la
+elevación del terreno, siendo la altura una variable escalar que se
+distribuye en un espacio bi-dimensional (Burgos \& Salcedo (2014)).
+
+\section{Metodología}\label{metodologuxeda}
+
+Para la elaboracion de esta investigación se emplearon metodos de
+analisis morfometrico a partir de un DEM de la cuenca de interes,
+inicialmente cargue una serie de paquetes de Grass en R para adecuar el
+entorno de R para los ejectar los codigos necesarios.
+
+En primer lugar, importe a R, como SpatialGridDataFrame, un DEM alojado
+en la base de datos de GRASS GIS, estableci la ruta y lo converti en un
+objeto raster usando el paquete raster de R, partiendo del complemento
+\emph{r.watershed}, el cual genera un conjunto de mapas que indican:
+\emph{la acumulación de flujo, la dirección del drenaje, la ubicación de
+los arroyos y las cuencas hidrográficas} (Team (2003b)), y del modelo
+digital de elevaciones (DEM) genere capas y calcule los parámetros
+hidrográficos de la cuenca del rio caña y sus redes de drenaje, ademas,
+seguido a esto importe un conjunto de capas ráster de GRASS GIS a R,
+como el mapa de red de drenaje y el de cuencas visualizandolas con
+\emph{leaflet}.
+
+Utilizando el complemento de GRASS GIS \emph{r.water.outlet} y
+apoyandome en los paquetes \emph{mapview} y \emph{leaflet} extraje una
+cuenca de drenaje a partir de un mapa de dirección de flujo y la
+coordenada de desembocadura de la cuenca cana (-71.62524,18.94026).
+
+El complemento \emph{r.water.outlet} se encarga de genera una cuenca
+hidrográfica a partir de un mapa de dirección de drenaje y un conjunto
+de coordenadas que representan el punto de salida de la cuenca. El mapa
+de dirección de drenaje de entrada indica el ``aspecto'' de cada celda
+(Team (2003a)).
+
+Posteriormente establecí una máscara usando el límite de la cuenca caña
+para luego realizar la extraccion, partir del DEM, de la red de drenaje
+utilizando el complemento de GRASS GIS \emph{r.stream.extract} desde R.
+Tras esto, utilice el complemento \emph{r.stream} para generar un mapa
+de dirección de flujo, \emph{r.stream.order} para un mapa de orden de
+red según varios métodos, entre ellos Strahler y Horton, a partir de
+\emph{r.stream.basins} un mapa de cuencas según órdenes de red y con
+\emph{r.stream.stats} genere las estadísticas de red resumidas por
+órdenes y expandidas, incluyendo la razón de bifurcación.
+
+\section{Resultados}\label{resultados}
 
 \ldots
 
-\hypertarget{metodologuxeda}{%
-\section{Metodología}\label{metodologuxeda}}
+\section{Discusión}\label{discusiuxf3n}
+
+\section{Agradecimientos}\label{agradecimientos}
+
+\section{Información de soporte}\label{informaciuxf3n-de-soporte}
 
 \ldots
 
-\hypertarget{resultados}{%
-\section{Resultados}\label{resultados}}
-
-\ldots
-
-\hypertarget{discusiuxf3n}{%
-\section{Discusión}\label{discusiuxf3n}}
-
-\hypertarget{agradecimientos}{%
-\section{Agradecimientos}\label{agradecimientos}}
-
-\hypertarget{informaciuxf3n-de-soporte}{%
-\section{Información de soporte}\label{informaciuxf3n-de-soporte}}
-
-\ldots
-
-\hypertarget{script-reproducible}{%
 \section{\texorpdfstring{\emph{Script}
-reproducible}{Script reproducible}}\label{script-reproducible}}
+reproducible}{Script reproducible}}\label{script-reproducible}
 
 \ldots
 
-\hypertarget{referencias}{%
-\section{Referencias}\label{referencias}}
+\section*{Referencias}\label{referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\hypertarget{refs}{}
+\hypertarget{ref-burgos2014modelos}{}
+Burgos, V. H., \& Salcedo, A. P. (2014). Modelos digitales de elevación:
+Tendencias, correcciones hidrológicas y nuevas fuentes de información.
+\emph{Encuentro de Investigadores En Formación En Recursos Hídricos (2,
+2014, Ezeiza, Buenos Aires, Argentina). Disponible En: Http://Www. Ina.
+Gov. Ar/Ifrh-2014/Eje1/1.11. Pdf. Consultado}, \emph{1}(10), 2015.
+
+\hypertarget{ref-addonrwateroutlet}{}
+Team, G. D. (2003a). R.water.outlet - creates watershed basins from a
+drainage direction map. Retrieved April 2, 2021, from
+\url{https://grass.osgeo.org/grass78/manuals/r.water.outlet.html}
+
+\hypertarget{ref-addonrwater}{}
+Team, G. D. (2003b). R.watershed - calculates hydrological parameters
+and rusle factors. Retrieved April 2, 2021, from
+\url{https://grass.osgeo.org/grass76/manuals/r.watershed.html}
 
 
 
