@@ -1,3 +1,0 @@
-COMMAND: r.lfp --overwrite input=drainage-dir-de-rstr coordinates=224887.173240165,2072397.03558911 output=LfpNetwork_lfp_tmp_Pnt_stream_40
-GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
-LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Sat Apr  3 13:41:51 2021

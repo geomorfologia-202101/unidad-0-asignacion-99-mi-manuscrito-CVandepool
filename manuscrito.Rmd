@@ -15,7 +15,7 @@ author:
 - name: Cinthia Amalia Vandepool Candelario
   affiliation: "Estudiante de Geografia, Universidad Autónoma de Santo Domingo (UASD)"
 abstract: "Resumen del manuscrito"
-keywords: "morfometría fluvial, modelo digital de elevación, red de drenaje "
+keywords: "morfometría fluvial, modelo digital de elevación, red de drenaje, razón de bifurcación "
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 geometry: margin=1in
 fontfamily: mathpazo
@@ -31,24 +31,29 @@ header-includes:
 ---
 
 # Introducción
+A lo largo de los años se ha reducido la dificultad para realizar analisis espaciales gracias a los novedosos avances tecnologicos del ultimo siglo, el desarrollo de los Sistemas de Información Geografica (SIG) ha simplificado el arduo trabajo que suponia {llevar acabo analisis espaciales}. A pesar de todas las herramientas {} disponibles la República Dominicana aún esta un paso por detras de muchos país, en especial en los analisis morfometricos de cuencas hidrograficas, situación lamentable ya que la isla posee innumerables cursos de agua ocupando así un lugar privilegiado en este siglo en donde cada día más país sufren por escases de agua dulce. 
 
-La morfometría fluvial se encarga de analizar los parámetros geomorfológicos de una cuenca hidrográfica, tales como la red de drenaje, la pendiente, la forma, el orden de la red y demas aspectos fisicos. Por cuenca hidrográfica entendemos ese sistema o unidad geográfica e hidrológica, formada por un rio principal y todo el territorio entre el origen del rio y su desembocadura, en este espacio interactúan factores bióticos y abióticos. 
+La morfometría fluvial se encarga de analizar los parámetros geomorfológicos de una cuenca hidrográfica, tales como la red de drenaje, la pendiente, la forma, el orden de la red y demás aspectos fisicos.(@) Entendienod que la cuenca hidrográfica es ese sistema o unidad geográfica e hidrológica formada por un rio principal y todo el territorio entre el origen del rio y su desembocadura, en esté espacio interactúan factores bióticos y abióticos. 
 
-La cuenca hidrográfica a analizar en esta investigación es la Subcuenca Caña perteneciente a la Cuenca del rio Macasia, ubicada en el extremo suroeste de la republica dominicana, dicho análisis se realizara basandonos en datos preexistentes a partir de un *modelo digital de elevación (DEM)*, el cual es un modelo simbólico, de estructura numérica y digital que pretende representar la distribución espacial de la elevación del terreno, siendo la altura una variable escalar que se distribuye en un espacio bi-dimensional (@burgos2014modelos). 
+La cuenca hidrográfica a analizar en esta investigación es la Subcuenca Caña perteneciente a la Cuenca del Rio Macasia, ubicada en el extremo suroeste de la República Dominicana, dicho análisis se realizará basandonos en datos preexistentes a partir de un *modelo digital de elevación (DEM)*, el cual es un modelo simbólico, de estructura numérica y digital que pretende representar la distribución espacial de la elevación del terreno, siendo la altura una variable escalar que se distribuye en un espacio bi-dimensional (@burgos2014modelos). 
 
+El objetivo de esta investigación es 
 
 # Metodología
 
-Para la elaboracion de esta investigación se emplearon metodos de analisis morfometrico a partir de un DEM de la cuenca de interes, inicialmente cargue una serie de paquetes de Grass en R para adecuar el entorno de R para los ejectar los codigos necesarios.
+##Área de Estudio
+La cuenca del Rio Caña se localiza entre las provincias Elias Piña y San Juan, abarcando comunidades como EL Cercado, Las Matas de Farfán, El Llano, Juan Santiago y Hondo valle. 
 
-En primer lugar, importe a R, como SpatialGridDataFrame, un DEM alojado en la base de datos de GRASS GIS, estableci la ruta y lo converti en un objeto raster usando el paquete raster de R, partiendo del complemento *r.watershed*, el cual genera un conjunto de mapas que indican: *la acumulación de flujo, la dirección del drenaje, la ubicación de los arroyos y las cuencas hidrográficas* (@addonrwater), y del modelo digital de elevaciones (DEM) genere capas y calcule los parámetros hidrográficos de la cuenca del rio caña y sus redes de drenaje, ademas, seguido a esto importe un conjunto de capas ráster de GRASS GIS a R, como el mapa de red de drenaje y el de cuencas visualizandolas con *leaflet*. 
+Posee una superficie de
 
-Utilizando el complemento de GRASS GIS *r.water.outlet* y apoyandome en los paquetes *mapview* y *leaflet* extraje una cuenca de drenaje a partir de un mapa de dirección de flujo y la coordenada de desembocadura de la cuenca cana (-71.62524,18.94026).
+##Metodología
+Para la elaboración de esta investigación se emplearon metodos de analisis morfometrico a partir de un DEM de la cuenca de interes, inicialmente cargue una serie de paquetes de Grass en R adecuando el entorno para ejectar los codigos necesarios.
 
-El complemento *r.water.outlet* se encarga de genera una cuenca hidrográfica a partir de un mapa de dirección de drenaje y un conjunto de coordenadas que representan el punto de salida de la cuenca. El mapa de dirección de drenaje de entrada indica el "aspecto" de cada celda (@addonrwateroutlet).
+En primer lugar, se importó a R, como SpatialGridDataFrame, un DEM alojado en la base de datos de GRASS GIS, se estableció su ruta y conviertiendolo a su vez en un objeto raster por medio del paquete raster de R; partiendo del complemento *r.watershed* (el cual generá un conjunto de mapas que indican: *la acumulación de flujo, la dirección del drenaje, la ubicación de los arroyos y las cuencas hidrográficas* (@addonrwater)) y del modelo digital de elevaciones (DEM) se generaron diversas capas calculando así los parámetros hidrográficos de la cuenca del rio caña y sus redes de drenaje, además, seguido a esto se importó un conjunto de capas ráster de GRASS GIS a R, como el mapa de red de drenaje y el mapa de cuencas visualizandolas por medio de *leaflet*. 
 
-Posteriormente establecí una máscara usando el límite de la cuenca caña para luego realizar la extraccion, partir del DEM, de la red de drenaje utilizando el complemento de GRASS GIS *r.stream.extract* desde R. Tras esto, utilice el complemento *r.stream* para generar un mapa de dirección de flujo, *r.stream.order* para un mapa de orden de red según varios métodos, entre ellos Strahler y Horton, a partir de *r.stream.basins* un mapa de cuencas según órdenes de red y con *r.stream.stats* genere las estadísticas de red resumidas por órdenes y expandidas, incluyendo la razón de bifurcación.  
+Utilizando el complemento de GRASS GIS *r.water.outlet* (@addonrwateroutlet) y apoyandose en los paquetes *mapview* (@mapview) y *leaflet* se extrajó la cuenca de drenaje a partir de un mapa de dirección de flujos con un umbral de acumulación de *80 celdas* y las coordenadas de la desembocadura de la cuenca cana (-71.62524,18.94026).
 
+Posteriormente se estableció una máscara usando el límite de la cuenca caña para luego realizar la extracción, partir del DEM, de la red de drenaje utilizando el complemento de GRASS GIS *r.stream.extract* (@addonrstreamextract) desde R. Tras esto, se utilizó el complemento *r.stream*(@addonrstream) para generar un mapa de dirección de flujo, *r.stream.order* (@addonrstreamorder) para un mapa de orden de red según varios métodos, entre ellos el método de Strahler y de Horton, a partir de *r.stream.basins* (@addonrstreambasins) un mapa de cuencas según órdenes de red y apoyandose del complemento *r.stream.stats*(@addonrstreamstats) se generó las estadísticas de red resumidas por órdenes, incluyendo la razón de bifurcación.  
 
 
 # Resultados

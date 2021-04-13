@@ -93,7 +93,8 @@ Subtítulo  }
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={Cinthia Amalia Vandepool Candelario (Estudiante de Geografia, Universidad Autónoma de Santo Domingo (UASD))},
-             pdfkeywords = {morfometría fluvial, modelo digital de elevación, red de drenaje},  
+             pdfkeywords = {morfometría fluvial, modelo digital de elevación, red de drenaje, razón
+de bifurcación},  
             pdftitle={Título\\
 Subtítulo\\
 Subtítulo},
@@ -155,7 +156,8 @@ Subtítulo},
 \noindent Resumen del manuscrito
 
 
-\vskip 8.5pt \noindent \emph{Keywords}: morfometría fluvial, modelo digital de elevación, red de drenaje \par
+\vskip 8.5pt \noindent \emph{Keywords}: morfometría fluvial, modelo digital de elevación, red de drenaje, razón
+de bifurcación \par
 
     \hbox{\vrule height .2pt width 39.14pc}
 
@@ -169,62 +171,91 @@ Subtítulo},
 
 \noindent  \section{Introducción}\label{introducciuxf3n}
 
+A lo largo de los años se ha reducido la dificultad para realizar
+analisis espaciales gracias a los novedosos avances tecnologicos del
+ultimo siglo, el desarrollo de los Sistemas de Información Geografica
+(SIG) ha simplificado el arduo trabajo que suponia \{llevar acabo
+analisis espaciales\}. A pesar de todas las herramientas \{\}
+disponibles la República Dominicana aún esta un paso por detras de
+muchos país, en especial en los analisis morfometricos de cuencas
+hidrograficas, situación lamentable ya que la isla posee innumerables
+cursos de agua ocupando así un lugar privilegiado en este siglo en donde
+cada día más país sufren por escases de agua dulce.
+
 La morfometría fluvial se encarga de analizar los parámetros
 geomorfológicos de una cuenca hidrográfica, tales como la red de
-drenaje, la pendiente, la forma, el orden de la red y demas aspectos
-fisicos. Por cuenca hidrográfica entendemos ese sistema o unidad
-geográfica e hidrológica, formada por un rio principal y todo el
-territorio entre el origen del rio y su desembocadura, en este espacio
+drenaje, la pendiente, la forma, el orden de la red y demás aspectos
+fisicos.(@) Entendienod que la cuenca hidrográfica es ese sistema o
+unidad geográfica e hidrológica formada por un rio principal y todo el
+territorio entre el origen del rio y su desembocadura, en esté espacio
 interactúan factores bióticos y abióticos.
 
 La cuenca hidrográfica a analizar en esta investigación es la Subcuenca
-Caña perteneciente a la Cuenca del rio Macasia, ubicada en el extremo
-suroeste de la republica dominicana, dicho análisis se realizara
+Caña perteneciente a la Cuenca del Rio Macasia, ubicada en el extremo
+suroeste de la República Dominicana, dicho análisis se realizará
 basandonos en datos preexistentes a partir de un \emph{modelo digital de
 elevación (DEM)}, el cual es un modelo simbólico, de estructura numérica
 y digital que pretende representar la distribución espacial de la
 elevación del terreno, siendo la altura una variable escalar que se
 distribuye en un espacio bi-dimensional (Burgos \& Salcedo (2014)).
 
+El objetivo de esta investigación es
+
 \section{Metodología}\label{metodologuxeda}
 
-Para la elaboracion de esta investigación se emplearon metodos de
+\subsection{Área de Estudio}\label{uxe1rea-de-estudio}
+
+La cuenca del Rio Caña se localiza entre las provincias Elias Piña y San
+Juan, abarcando comunidades como EL Cercado, Las Matas de Farfán, El
+Llano, Juan Santiago y Hondo valle.
+
+Posee una superficie de
+
+\subsection{Metodología}\label{metodologuxeda-1}
+
+Para la elaboración de esta investigación se emplearon metodos de
 analisis morfometrico a partir de un DEM de la cuenca de interes,
-inicialmente cargue una serie de paquetes de Grass en R para adecuar el
-entorno de R para los ejectar los codigos necesarios.
+inicialmente cargue una serie de paquetes de Grass en R adecuando el
+entorno para ejectar los codigos necesarios.
 
-En primer lugar, importe a R, como SpatialGridDataFrame, un DEM alojado
-en la base de datos de GRASS GIS, estableci la ruta y lo converti en un
-objeto raster usando el paquete raster de R, partiendo del complemento
-\emph{r.watershed}, el cual genera un conjunto de mapas que indican:
-\emph{la acumulación de flujo, la dirección del drenaje, la ubicación de
-los arroyos y las cuencas hidrográficas} (Team (2003b)), y del modelo
-digital de elevaciones (DEM) genere capas y calcule los parámetros
-hidrográficos de la cuenca del rio caña y sus redes de drenaje, ademas,
-seguido a esto importe un conjunto de capas ráster de GRASS GIS a R,
-como el mapa de red de drenaje y el de cuencas visualizandolas con
-\emph{leaflet}.
+En primer lugar, se importó a R, como SpatialGridDataFrame, un DEM
+alojado en la base de datos de GRASS GIS, se estableció su ruta y
+conviertiendolo a su vez en un objeto raster por medio del paquete
+raster de R; partiendo del complemento \emph{r.watershed} (el cual
+generá un conjunto de mapas que indican: \emph{la acumulación de flujo,
+la dirección del drenaje, la ubicación de los arroyos y las cuencas
+hidrográficas} (GRASS Development Team (2003g))) y del modelo digital de
+elevaciones (DEM) se generaron diversas capas calculando así los
+parámetros hidrográficos de la cuenca del rio caña y sus redes de
+drenaje, además, seguido a esto se importó un conjunto de capas ráster
+de GRASS GIS a R, como el mapa de red de drenaje y el mapa de cuencas
+visualizandolas por medio de \emph{leaflet}.
 
-Utilizando el complemento de GRASS GIS \emph{r.water.outlet} y
-apoyandome en los paquetes \emph{mapview} y \emph{leaflet} extraje una
-cuenca de drenaje a partir de un mapa de dirección de flujo y la
-coordenada de desembocadura de la cuenca cana (-71.62524,18.94026).
+Utilizando el complemento de GRASS GIS \emph{r.water.outlet} (GRASS
+Development Team (2003f)) y apoyandose en los paquetes \emph{mapview}
+(Tim Appelhans and others (2020)) y \emph{leaflet} se extrajó la cuenca
+de drenaje a partir de un mapa de dirección de flujos con un umbral de
+acumulación de \emph{80 celdas} y las coordenadas de la desembocadura de
+la cuenca cana (-71.62524,18.94026).
 
 El complemento \emph{r.water.outlet} se encarga de genera una cuenca
-hidrográfica a partir de un mapa de dirección de drenaje y un conjunto
-de coordenadas que representan el punto de salida de la cuenca. El mapa
-de dirección de drenaje de entrada indica el ``aspecto'' de cada celda
-(Team (2003a)).
+hidrográfica a partir de un mapa de\\
+dirección de drenaje y un conjunto de coordenadas que representan el
+punto de salida de la cuenca. El mapa de dirección de drenaje de entrada
+indica el ``aspecto'' de cada celda (GRASS Development Team (2003f)).
 
 Posteriormente establecí una máscara usando el límite de la cuenca caña
 para luego realizar la extraccion, partir del DEM, de la red de drenaje
-utilizando el complemento de GRASS GIS \emph{r.stream.extract} desde R.
-Tras esto, utilice el complemento \emph{r.stream} para generar un mapa
-de dirección de flujo, \emph{r.stream.order} para un mapa de orden de
-red según varios métodos, entre ellos Strahler y Horton, a partir de
-\emph{r.stream.basins} un mapa de cuencas según órdenes de red y con
-\emph{r.stream.stats} genere las estadísticas de red resumidas por
-órdenes y expandidas, incluyendo la razón de bifurcación.
+utilizando el complemento de GRASS GIS \emph{r.stream.extract} (GRASS
+Development Team (2003d)) desde R. Tras esto, utilice el complemento
+\emph{r.stream}(GRASS Development Team (2003e)) para generar un mapa de
+dirección de flujo, \emph{r.stream.order} (GRASS Development Team
+(2003b)) para un mapa de orden de red según varios métodos, entre ellos
+Strahler y Horton, a partir de \emph{r.stream.basins} (GRASS Development
+Team (2003c)) un mapa de cuencas según órdenes de red y apoyandome del
+complemento \emph{r.stream.stats}(GRASS Development Team (2003a)) genere
+las estadísticas de red resumidas por órdenes y expandidas, incluyendo
+la razón de bifurcación.
 
 \section{Resultados}\label{resultados}
 
@@ -254,15 +285,45 @@ Tendencias, correcciones hidrológicas y nuevas fuentes de información.
 2014, Ezeiza, Buenos Aires, Argentina). Disponible En: Http://Www. Ina.
 Gov. Ar/Ifrh-2014/Eje1/1.11. Pdf. Consultado}, \emph{1}(10), 2015.
 
+\hypertarget{ref-addonrstreamstats}{}
+GRASS Development Team. (2003a). Calculates horton's statistics for
+strahler and horton ordered networks created with r.stream.order.
+Retrieved April 12, 2021, from
+\url{https://grass.osgeo.org/grass78/manuals/addons/r.stream.stats.html}
+
+\hypertarget{ref-addonrstreamorder}{}
+GRASS Development Team. (2003b). Calculates strahler's and more streams
+hierarchy. Retrieved April 12, 2021, from
+\url{https://grass.osgeo.org/grass78/manuals/addons/r.stream.order.html}
+
+\hypertarget{ref-addonrstreambasins}{}
+GRASS Development Team. (2003c). Delineates basins according stream
+network. Retrieved April 12, 2021, from
+\url{https://grass.osgeo.org/grass78/manuals/addons/r.stream.basins.html}
+
+\hypertarget{ref-addonrstreamextract}{}
+GRASS Development Team. (2003d). Performs stream network extraction.
+Retrieved April 12, 2021, from
+\url{https://grass.osgeo.org/grass78/manuals/r.stream.extract.html}
+
+\hypertarget{ref-addonrstream}{}
+GRASS Development Team. (2003e). R.stream.* modules. Retrieved April 12,
+2021, from \url{https://grasswiki.osgeo.org/wiki/R.stream.*_modules}
+
 \hypertarget{ref-addonrwateroutlet}{}
-Team, G. D. (2003a). R.water.outlet - creates watershed basins from a
-drainage direction map. Retrieved April 2, 2021, from
+GRASS Development Team. (2003f). R.water.outlet - creates watershed
+basins from a drainage direction map. Retrieved April 2, 2021, from
 \url{https://grass.osgeo.org/grass78/manuals/r.water.outlet.html}
 
 \hypertarget{ref-addonrwater}{}
-Team, G. D. (2003b). R.watershed - calculates hydrological parameters
-and rusle factors. Retrieved April 2, 2021, from
+GRASS Development Team. (2003g). R.watershed - calculates hydrological
+parameters and rusle factors. Retrieved April 2, 2021, from
 \url{https://grass.osgeo.org/grass76/manuals/r.watershed.html}
+
+\hypertarget{ref-mapview}{}
+Tim Appelhans and others. (2020). Mapview: Interactive viewing of
+spatial data in r. Retrieved April 12, 2021, from
+\url{https://cran.r-project.org/web/packages/mapview/index.html}
 
 
 
