@@ -1,3 +1,0 @@
-COMMAND: r.to.vect --overwrite --quiet input="r-stream-basins-4" output="r_stream_basins_4" type="area" column="value"
-GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
-LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Mon Apr  5 18:54:45 2021

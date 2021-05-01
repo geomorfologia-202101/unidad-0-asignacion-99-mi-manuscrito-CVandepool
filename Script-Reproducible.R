@@ -508,7 +508,7 @@ cana_conv_prof$lengthzdatadmnls %>% tibble::as.tibble()
 #Video 12 Parámetros de cuenca con r.basin ----
 # Convertir a números enteros la extensión y la resolución del DEM
 library(raster)
-rutadem <- 'data/dem.tif'
+rutadem <- 'datos-fuente/srtm_dem_cuenca_cana.tif'
 rawextent <- extent(raster(rutadem))
 rawextent
 devtools::source_url('https://raw.githubusercontent.com/geofis/rgrass/master/integerextent.R')
@@ -522,7 +522,7 @@ gdalUtils::gdalwarp(
   tr = c(90,90),
   r = 'bilinear',
   overwrite = T
-  
+)
 ## Importar a sesión de GRASS
 rutademint <- 'data/demint.tif'
 execGRASS(
@@ -582,7 +582,7 @@ mapview(netw, col.regions = 'blue', legend = FALSE)
 
 ## Transformar coordenada a EPSG:32619 como número entero
 source('my-trans.R')
-outlet <- as.integer(my_trans(c(-70.77398,18.90123)))
+outlet <- as.integer(my_trans(c(-71.62524,18.94026)))
 
 ## Ejecutar `r.basin`
 pref <- 'rbasin_pant'
@@ -594,7 +594,7 @@ execGRASS(
     prefix = pref,
     coordinates = outlet,
     threshold = 80,
-    dir = 'salidas-rbasin/pantuflas'
+    dir = 'salidas-rbasin/cana'
   )
 )
 execGRASS(
@@ -604,27 +604,26 @@ execGRASS(
     type = c('raster', 'vector')
   )
 )
-> Si `r.basin` arrojara error (sólo en el caso de error, no en caso de advertencia), ejecutar este bloque para borrar las salidas anteriores y reejecutar el `r.basin`:
-  ```{r, eval=FALSE}
-execGRASS(
-  "g.remove",
-  flags = 'f',
-  parameters = list(
-    type = c('raster','vector'),
-    pattern = paste0(pref, '*')
-  )
-)
+#> Si `r.basin` arrojara error (sólo en el caso de error, no en caso de advertencia), ejecutar este bloque para borrar las salidas anteriores y reejecutar el `r.basin`:
+#execGRASS(
+ # "g.remove",
+  #flags = 'f',
+  #parameters = list(
+   # type = c('raster','vector'),
+    #pattern = paste0(pref, '*')
+  #)
+#)
 ## Cargar los vectoriales transformados a EPSG:4326 para visualizar en leaflet
 rbnetw <- spTransform(
-  readVECT('rbasin_pant_demint_network'),
+  readVECT('rbasin_cana_demint_network'),
   CRSobj = CRS("+init=epsg:4326"))
 rbnetw
 rbmain <- spTransform(
-  readVECT('rbasin_pant_demint_mainchannel'),
+  readVECT('rbasin_cana_demint_mainchannel'),
   CRSobj = CRS("+init=epsg:4326"))
 rbmain
 rbbasin <- spTransform(
-  readVECT('rbasin_pant_demint_basin'),
+  readVECT('rbasin_cana_demint_basin'),
   CRSobj = CRS("+init=epsg:4326"))
 rbbasin
 
@@ -638,18 +637,16 @@ leaflet() %>%
 
 ## Explorar los parámetros de cuenca
 library(readr)
-rbpantpar1 <- read_csv("salidas-rbasin/pantuflas/rbasin_pant_demint_parametersT.csv")
-rbpantpar1 %>% tibble::as_tibble()
-rbpantpar2 <- read_csv(
+rbcanapar1 <- read_csv("salidas-rbasin/cana/rbasin_cana_demint_parametersT.csv")
+rbcanapar1 %>% tibble::as_tibble()
+rbcanapar2 <- read_csv(
   "salidas-rbasin/pantuflas/rbasin_pant_demint_parameters.csv",
   skip=2, col_names = c('Parameter', 'Value'))
-rbpantpar2 %>% print(n=Inf)
+rbcanapar2 %>% print(n=Inf)
 
 #Video 13 Curva e integral hipsométrica ----
 # Imprimir lista de mapas ráster y vectoriales dentro en la región/localización activa
-
-* Nótese que los paquetes requeridos en esta sessión (`rgrass7`, `raster`, `leaflet`, `leafem`), fueron en el bloque anterior al ejecutarse el código contenido en el archivo `orden-de-red.Rmd`. Igualmente, dicho bloque de código creó todos los objetos necesarios para realizar este tutorial.
-
+#* Nótese que los paquetes requeridos en esta sessión (`rgrass7`, `raster`, `leaflet`, `leafem`), fueron en el bloque anterior al ejecutarse el código contenido en el archivo `orden-de-red.Rmd`. Igualmente, dicho bloque de código creó todos los objetos necesarios para realizar este tutorial.
 execGRASS(
   'g.list',
   flags = 't',
@@ -657,7 +654,6 @@ execGRASS(
     type = c('raster', 'vector')
   )
 )
-
 ## Representar cuencas
 library(sp)
 use_sp()
