@@ -489,16 +489,15 @@ source('lfp_profiles_concavity.R') #Cargado como función "LfpProfilesConcavity"
 cana_conv_prof <- LfpProfilesConcavity(
   xycoords = my_trans(c(-71.62524,18.94026)),
   network = 'LfpNetwork_lfp_all_final_cana',
-  prefix = 'Ptl',
+  prefix = 'cana',
   dem = 'dem',
   direction = 'drainage-dir-de-rstr',
   crs = '+init=epsg:32619',
   smns = 0.5,
-  nrow = 3)
-
+  nrow = 5)
 ## Mostrar resultados
 cana_conv_prof$profiles
-cana_prof$concavityindex
+cana_conv_prof$concavityindex
 cana_conv_prof$dimensionlessprofiles
 
 ## Tabla dx/dy, tanto en metros como adimensional. Útiles para construir perfiles por cuenta propia
@@ -516,15 +515,15 @@ devtools::source_url('https://raw.githubusercontent.com/geofis/rgrass/master/xyv
 newextent <- intext(e = rawextent, r = 90, type = 'inner')
 newextent
 gdalUtils::gdalwarp(
-  srcfile = 'data/dem.tif',
-  dstfile = 'data/demint.tif',
+    srcfile = 'datos-fuente/srtm_dem_cuenca_cana.tif',
+  dstfile = 'demint.tif',
   te = xyvector(newextent),
   tr = c(90,90),
   r = 'bilinear',
   overwrite = T
 )
 ## Importar a sesión de GRASS
-rutademint <- 'data/demint.tif'
+rutademint <- 'demint.tif'
 execGRASS(
   "g.proj",
   flags = c('t','c'),
@@ -585,7 +584,7 @@ source('my-trans.R')
 outlet <- as.integer(my_trans(c(-71.62524,18.94026)))
 
 ## Ejecutar `r.basin`
-pref <- 'rbasin_pant'
+pref <- 'rbasin_cana'
 execGRASS(
   "r.basin",
   flags = 'overwrite',
@@ -640,7 +639,7 @@ library(readr)
 rbcanapar1 <- read_csv("salidas-rbasin/cana/rbasin_cana_demint_parametersT.csv")
 rbcanapar1 %>% tibble::as_tibble()
 rbcanapar2 <- read_csv(
-  "salidas-rbasin/pantuflas/rbasin_pant_demint_parameters.csv",
+  "salidas-rbasin/cana/rbasin_cana_demint_parameters.csv",
   skip=2, col_names = c('Parameter', 'Value'))
 rbcanapar2 %>% print(n=Inf)
 

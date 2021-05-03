@@ -1,0 +1,11 @@
+COMMAND: r.to.vect -s -v input="rbasin_cana_demint_basin" output="rbasin_cana_demint_basin" type="area" column="value"
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Mon May  3 12:17:55 2021
+---------------------------------------------------------------------------------
+COMMAND: v.db.addcolumn map=rbasin_cana_demint_basin 'columns=area double precision'
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Mon May  3 12:17:55 2021
+---------------------------------------------------------------------------------
+COMMAND: v.db.addcolumn map=rbasin_cana_demint_basin 'columns=perimeter double precision'
+GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Mon May  3 12:17:55 2021
