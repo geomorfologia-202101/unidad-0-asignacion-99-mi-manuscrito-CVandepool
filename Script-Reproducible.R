@@ -493,8 +493,8 @@ cana_conv_prof <- LfpProfilesConcavity(
   dem = 'dem',
   direction = 'drainage-dir-de-rstr',
   crs = '+init=epsg:32619',
-  smns = 0.5,
-  nrow = 5)
+  smns = 1,
+  nrow = 6)
 ## Mostrar resultados
 cana_conv_prof$profiles
 cana_conv_prof$concavityindex
