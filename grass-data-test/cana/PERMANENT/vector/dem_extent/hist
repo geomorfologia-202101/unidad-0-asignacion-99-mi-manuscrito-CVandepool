@@ -1,6 +1,6 @@
 COMMAND: v.in.ogr --overwrite --quiet input="datos-fuente/cuenca_cana.geojson" output="dem_extent" min_area=0.0001 type="" snap=-1
 GISDBASE: /home/cinthiavandepool/unidad-0-asignacion-99-mi-manuscrito-CVandepool/grass-data-test
-LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Mon May 10 16:36:33 2021
+LOCATION: cana MAPSET: PERMANENT USER: cinthiavandepool DATE: Wed Jun  2 20:11:21 2021
 -----------------------------------------------------
 1 input polygons
 Total area: 5.28976E+08 (1 areas)
