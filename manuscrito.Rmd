@@ -1,32 +1,29 @@
 ---
-# output: github_document
-output: 
-  pdf_document:
-    keep_tex: true
-    fig_caption: true
-    latex_engine: pdflatex
-    template: svm-latex-ms.tex
-    number_sections: true
-title: | 
-        | Características morfométricas de la microcuenca Caña, República Dominicana, aplicando tecnología geoespacial de código abierto.
-      
+title: |
+  | Características morfométricas de la microcuenca Caña, República Dominicana, aplicando tecnología geoespacial de código abierto.
 author:
-- name: Cinthia Amalia Vandepool Candelario
-  affiliation: "Estudiante de Geografía mención Recursos Naturales y Ecoturismo, Universidad Autónoma de Santo Domingo (UASD)"
-abstract: "La morfometría fluvial es de gran importancia para realizar estudios hidrológicos en un contexto de cambio climático con amenazas cada vez más frecuentes de eventos extremos, pero aún en la actualidad pocos países realizan de manera continua análisis de esta índole, en especial en nuestro país que, debido a su condición como isla y su ubicación en la trayectoria de ciclones tropicales, debería de estar especialmente interesado en mitigar el riego de grandes inundaciones. A lo largo de este artículo se estará analizando la microcuenca del arroyo caña, perteneciente a la subcuenca del río Macasía ubicada en el extremo suroeste de la República Dominicana, dicha unidad hidrográfica es prácticamente desconocida, ya que no se posee información específica sobre ella en fuentes bibliográficas, por lo que este estudio proporciona algunos datos reales sobre sus aspectos morfométricos, geológicos y cartográficos. Basándose en datos preexistentes y utilizando un MDE se delimitó la cuenca y se analizó la red de drenaje y los perfiles longitudinales e indices de concavidad del curso más largo, de la misma forma se calcularon los parámetros morfométricos de la cuenca, se estudió su posible relación con la litología de la zona y si existían evidencias de un posible fenómeno de reorganizamiento del drenaje. "
-keywords: "morfometría fluvial, modelo digital de elevación, red de drenaje, razón de bifurcación, indice de convavidad"
+- affiliation: Estudiante de Geografía mención Recursos Naturales y Ecoturismo, Universidad
+    Autónoma de Santo Domingo (UASD)
+  name: Cinthia Amalia Vandepool Candelario
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-geometry: margin=1in
+output:
+  pdf_document:
+    fig_caption: yes
+    keep_tex: yes
+    latex_engine: pdflatex
+    number_sections: yes
+    template: svm-latex-ms.tex
+  word_document: default
+bibliography: bibliography.bib
 fontfamily: mathpazo
 fontsize: 11pt
-# spacing: double
-bibliography: bibliography.bib
-# csl: plos-one.csl
-csl: apa.csl
-header-includes:
-  \usepackage{pdflscape}
-  \newcommand{\blandscape}{\begin{landscape}}
+geometry: margin=1in
+header-includes: \usepackage{pdflscape} \newcommand{\blandscape}{\begin{landscape}}
   \newcommand{\elandscape}{\end{landscape}}
+keywords: morfometría fluvial, modelo digital de elevación, red de drenaje, razón
+  de bifurcación, indice de convavidad
+csl: apa.csl
+abstract: 'La morfometría fluvial es de gran importancia para realizar estudios hidrológicos en un contexto de cambio climático con amenazas cada vez más frecuentes de eventos extremos, pero aún en la actualidad pocos países realizan de manera continua análisis de esta índole, en especial en nuestro país que, debido a su condición como isla y su ubicación en la trayectoria de ciclones tropicales, debería de estar especialmente interesado en mitigar el riego de grandes inundaciones. A lo largo de este artículo se estará analizando la microcuenca del arroyo caña, perteneciente a la subcuenca del río Macasía ubicada en el extremo suroeste de la República Dominicana, dicha unidad hidrográfica es prácticamente desconocida, ya que no se posee información específica sobre ella en fuentes bibliográficas, por lo que este estudio proporciona algunos datos reales sobre sus aspectos morfométricos, geológicos y cartográficos.Basándose en datos preexistentes y utilizando un MDE se delimitó la cuenca y se analizó la red de drenaje y los perfiles longitudinales e indices de concavidad del curso más largo, de la misma forma se calcularon los parámetros morfométricos de la cuenca, se estudió su posible relación con la litología de la zona y si existían evidencias de un posible fenómeno de reorganizamiento del drenaje.'
 ---
 
 # Introducción
